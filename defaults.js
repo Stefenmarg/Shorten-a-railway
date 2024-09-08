@@ -1,10 +1,14 @@
 exports.setup = (Server) => {
+	//Importing all the managers of this application.
 	Server.BackupManager = require('./Backups/BackupManager'); 
 	Server.DatabaseManager = require('./Database/DatabaseManager');
 	Server.LogManager = require("./Logs/LogManager");
 	Server.Endpoints = require('./Endpoints/EndpointManager');
-
+	
+	//Connect the database
 	Server = Server.DatabaseManager.connectDB(Server);
+	
+	//Return everything tht is imported
 	return Server;
 }
 
