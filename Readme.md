@@ -16,7 +16,7 @@ Shorten-a-railway is a small and simple url shortener service that runs with Nod
 
 ## Documentation
 
-All the documentation for each function can be found in the source code in it's script file
+All the documentation for each function can be found in the root of the repo in the Documentation.md file
 
 ## Deployment
 
