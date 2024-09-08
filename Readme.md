@@ -17,6 +17,7 @@ Shorten-a-railway is a small and simple url shortener service that runs with Nod
 ## Documentation
 
 All the documentation for each function can be found in the source code in it's script file
+
 ## Deployment
 
 To install all the required packages for the app run:
@@ -34,7 +35,11 @@ To start the service's server run:
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Stefenmarg/Shorten-a-railway/blob/main/Assets/homepage_shortener.png?raw=true)
+
+![App Screenshot](https://github.com/Stefenmarg/Shorten-a-railway/blob/main/Assets/new_shortener.png?raw=true)
+
+![App Screenshot](https://github.com/Stefenmarg/Shorten-a-railway/blob/main/Assets/takedown_shortener.png?raw=true)
 
 
 ## Usage/Examples
