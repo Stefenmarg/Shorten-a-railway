@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Shorten-a-railway</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="https://stefenmarg.github.io/Saturnium/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+<body class="ribbon">
+  <div>
+      <h2>Shorten-a-railway</h2>
+      <nav> 
+        <a class="navigation" href="/">Home</a>
+        <a class="navigation" href="/new">New</a>
+        <a class="navigation" href="/takedown">Report</a>
+      </nav>
+  </div>
+  <div class="divider">
+    <h3>Home</h3>
+
+    <div>
+      <form id="url_form">
+        <label for="url">What is the link that you want to short:</label><br>
+        <input type="text" id="url" name="url"><br>
+        <label for="email">What is your email*:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <input type="submit" value="Submit">  
+      </form>
+
+      <h1 id='result'></h1>
+
+      <h4 class="divider">
+        *We need your email incase you want to remove your link from our database,
+        Additionally, you email WILL NEVER BE STORED in our database, we just keep it's hash NOT THE ACTUAL EMAIL ADDRESS.
+      </h4>
+    </div>
+  </div>
+  <div class="divider social noLinkDecorations">
+    <div class="center">
+      <a class="social" href="https://www.github.com/Stefenmarg"> <i class="fa-brands fa-github"></i> </a>
+      <a class="social" href="https://github.com/Stefenmarg/Shorten-A-Railway"> <i class="fa-solid fa-code-fork"></i> </a>
+      <a class="social" href="https://Stefenmarg.github.io"> <i class="fa-solid fa-link"></i> </a>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  const serverResponceHeader = document.getElementById("result");
+  const userSubmissionForm =  document.getElementById("url_form");
+  var lastUsedURL = ""
+  userSubmissionForm.addEventListener("submit", (formObj) => {
+    formObj.preventDefault();
+    const userInsertedData = new FormData(userSubmissionForm);
+
+    if((userInsertedData.get('url')) && (userInsertedData.get('email') && userInsertedData.get('email').split("@").length === 2) && userInsertedData.get('email').split('.').length >= 2) {
+      fetch(`http://localhost:4000/reg?url=${userInsertedData.get('url')}&email=${userInsertedData.get('email')}`, { method: 'GET'}).then((res)=>{
+        res.text().then((data) => {
+          console.log(data);
+          const serverResponce = data.split("_");
+
+          if (serverResponce[0] == "Success") {
+            lastUsedURL = userInsertedData.get('email');
+            serverResponceHeader.innerHTML = `Success! Your link is now at /v/${serverResponce[1]}`;
+          } else {
+            serverResponceHeader.innerHTML = serverResponce.join(" ");
+          }
+        })
+      })
+    } else { alert("Missing the email and/or the url"); }
+  });
+</script>
+</html>
