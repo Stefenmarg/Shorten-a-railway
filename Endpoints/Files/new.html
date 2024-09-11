@@ -61,10 +61,10 @@
         console.log(ResponceTrue)
         Responce.innerHTML = ResponceTrue["Status"];
         if (ResponceTrue["Status"] == 'Success') {
-          Responce.innerHTML += ', your new link is now on localhost:4000/v/' + ResponceTrue["Responce"];
-          retun;
+          Responce.innerHTML += ', your new link is now on localhost:4000/v/';
+          return;
         }
-        Responce.innerHTML = ResponceTrue["Responce"];
+        Responce.innerHTML += ResponceTrue["Responce"];
       })
       .catch((err) => { console.log(err); alert(err); })
   });
