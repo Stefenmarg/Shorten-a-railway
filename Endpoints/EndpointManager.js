@@ -16,8 +16,15 @@ exports.fof = (req, res, Server) => {  res.sendFile(path.resolve(__dirname, `./F
 
 exports.reg = (req, res, Server) => {
 	Server.DatabaseManager.postNewRedirectURL(Server, req.query["url"], req.query["email"], (err, rows) => {
-		if (err) { console.log(err); Server.LogManager.writeLog(Server, 'Error', err); res.send('Failure_Database error please contact the admins with the error timestamp.')}
-		res.send(`Success_${rows["ID"]}`)
+		var Status = 'Success'
+		var Responce;
+		if (err) { 
+			console.log(err); 
+			Server.LogManager.writeLog(Server, 'Error', err); 
+			res.json(JSON.stringify({ Status: `Failure`, Responce: 'Database error occured; please try again later. If the error persist please contact the admins of the site.'}));
+		} else {
+			res.json(JSON.stringify({ Status: `Success`, Responce: `Your shortened link can now be found in /v/${rows["ID"]}`}));
+		}
 	});
 } 
 
