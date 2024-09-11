@@ -23,15 +23,15 @@
     <h3>Home</h3>
 
     <div>
-      <form id="url_form">
+      <form id="ShortenSubmissionForm">
         <label for="url">What is the link that you want to short:</label><br>
-        <input type="text" id="url" name="url"><br>
+        <input type="text" id="url" name="url" required><br>
         <label for="email">What is your email*:</label><br>
-        <input type="text" id="email" name="email"><br>
+        <input type="text" id="email" name="email" required><br>
         <input type="submit" value="Submit">  
       </form>
 
-      <h1 id='result'></h1>
+      <h1 id='ResultingStatus'></h1>
 
       <h4 class="divider">
         *We need your email incase you want to remove your link from our database,
@@ -48,28 +48,25 @@
   </div>
 </body>
 <script type="text/javascript">
-  const serverResponceHeader = document.getElementById("result");
-  const userSubmissionForm =  document.getElementById("url_form");
-  var lastUsedURL = ""
-  userSubmissionForm.addEventListener("submit", (formObj) => {
+  const Responce = document.getElementById("ResultingStatus");
+  const Form =  document.getElementById("ShortenSubmissionForm");
+
+  Form.addEventListener("submit", (formObj) => {
     formObj.preventDefault();
-    const userInsertedData = new FormData(userSubmissionForm);
+    const UserData = new FormData(Form);
 
-    if((userInsertedData.get('url')) && (userInsertedData.get('email') && userInsertedData.get('email').split("@").length === 2) && userInsertedData.get('email').split('.').length >= 2) {
-      fetch(`http://localhost:4000/reg?url=${userInsertedData.get('url')}&email=${userInsertedData.get('email')}`, { method: 'GET'}).then((res)=>{
-        res.text().then((data) => {
-          console.log(data);
-          const serverResponce = data.split("_");
-
-          if (serverResponce[0] == "Success") {
-            lastUsedURL = userInsertedData.get('email');
-            serverResponceHeader.innerHTML = `Success! Your link is now at /v/${serverResponce[1]}`;
-          } else {
-            serverResponceHeader.innerHTML = serverResponce.join(" ");
-          }
-        })
+    fetch(`http://localhost:4000/reg?email=${UserData.get('email')}&url=${UserData.get('url')}`, { method: 'GET' })
+      .then((PromiseResponce) => (PromiseResponce.json()))
+      .then((ResponceTrue) => {
+        console.log(ResponceTrue)
+        Responce.innerHTML = ResponceTrue["Status"];
+        if (ResponceTrue["Status"] == 'Success') {
+          Responce.innerHTML += ', your new link is now on localhost:4000/v/' + ResponceTrue["Responce"];
+          retun;
+        }
+        Responce.innerHTML = ResponceTrue["Responce"];
       })
-    } else { alert("Missing the email and/or the url"); }
+      .catch((err) => { console.log(err); alert(err); })
   });
 </script>
 </html>

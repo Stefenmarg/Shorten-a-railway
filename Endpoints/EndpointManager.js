@@ -4,7 +4,7 @@ const path = require('path');
 exports.rateLimit = RateLimit({
   	windowMs: 25 * 60 * 1000,
   	max: 7,
-  	message: "Too many API requests from this IP, please try again later.",
+  	message: { Status: 'Failure', Responce: 'Too many API requests from this IP, please try again later.'},
   	standardHeaders: true, 
   	legacyHeaders: false
 });
@@ -15,15 +15,23 @@ exports.takedown = (req, res, Server) => {  res.sendFile(path.resolve(__dirname,
 exports.fof = (req, res, Server) => {  res.sendFile(path.resolve(__dirname, `./Files/404.html`)); }
 
 exports.reg = (req, res, Server) => {
+	if (!req.query["url"].split('.').length > 1) {
+		res.json({ Status: "Failure", Responce: "Incorrect URL formation; Insert correct URL."});
+		return;
+	}
+
+	if (req.query["email"].split('@').length != 2  || req.query["email"].split('.').length < 2) {
+		res.json({ Status: "Failure", Responce: "Incorrect email formation; Insert correct Email."});
+		return;
+	}
+
 	Server.DatabaseManager.postNewRedirectURL(Server, req.query["url"], req.query["email"], (err, rows) => {
-		var Status = 'Success'
-		var Responce;
 		if (err) { 
 			console.log(err); 
 			Server.LogManager.writeLog(Server, 'Error', err); 
-			res.json(JSON.stringify({ Status: `Failure`, Responce: 'Database error occured; please try again later. If the error persist please contact the admins of the site.'}));
+			res.json({ Status: "Failure", Responce: "Database error occured; please try again later. If the error persist please contact the admins of the site."});
 		} else {
-			res.json(JSON.stringify({ Status: `Success`, Responce: `Your shortened link can now be found in /v/${rows["ID"]}`}));
+			res.json({ Status: "Success", Responce: rows["ID"]});
 		}
 	});
 } 
