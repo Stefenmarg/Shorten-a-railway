@@ -22,7 +22,7 @@ exports.backupIntervalMS = 1800000;
 exports.backupFolder = "./Backups/Files"
 
 //All the paths that should be copied and have a backup.s
-exports.C = ["./Database/Files", "./Logs/Files"]
+exports.backupPaths = ["./Database/Files", "./Logs/Files"]
 
 //all the diffrent types of logs that can be used in the service.
 exports.logTypes = ["Error", "Warning", "Notification", "Queries", "Uncategorised"];
