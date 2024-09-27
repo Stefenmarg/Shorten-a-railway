@@ -58,8 +58,7 @@
     fetch(`http://localhost:4000/reg?email=${UserData.get('email')}&url=${UserData.get('url')}`, { method: 'GET' })
       .then((PromiseResponce) => (PromiseResponce.json()))
       .then((ResponceTrue) => {
-        console.log(ResponceTrue)
-        Responce.innerHTML = ResponceTrue["Status"];
+        Responce.innerText = ResponceTrue["Status"];
         if (ResponceTrue["Status"] == 'Success') {
           Responce.innerText += ', your new link is now on localhost:4000/v/';
           return;
