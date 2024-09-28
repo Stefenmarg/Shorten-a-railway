@@ -19,8 +19,7 @@ exports.reg = (req, res, Server) => {
 		res.json({ Status: "Failure", Responce: "Incorrect URL formation; Insert correct URL."});
 		return;
 	}
-
-	if (req.query["email"].split('@').length != 2  || req.query["email"].split('.').length < 2) {
+	if (Server.EmailValidator.validate(req.query["email"]) == null) {
 		res.json({ Status: "Failure", Responce: "Incorrect email formation; Insert correct Email."});
 		return;
 	}
