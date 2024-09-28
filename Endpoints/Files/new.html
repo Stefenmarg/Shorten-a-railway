@@ -34,7 +34,7 @@
       <h1 id='ResultingStatus'></h1>
 
       <h4 class="divider">
-        *We need your email incase you want to remove your link from our database,
+        *We need your email incase you want to remove your link from our database. 
         Additionally, you email WILL NEVER BE STORED in our database, we just keep it's hash NOT THE ACTUAL EMAIL ADDRESS.
       </h4>
     </div>
@@ -58,12 +58,12 @@
     fetch(`http://localhost:4000/reg?email=${UserData.get('email')}&url=${UserData.get('url')}`, { method: 'GET' })
       .then((PromiseResponce) => (PromiseResponce.json()))
       .then((ResponceTrue) => {
-        Responce.innerText = ResponceTrue["Status"];
+        Responce.innerText = ResponceTrue["Status"] + ', ';
         if (ResponceTrue["Status"] == 'Success') {
-          Responce.innerText += ', your new link is now on localhost:4000/v/';
-          return;
+          Responce.innerText += 'your new link is now on localhost:4000/v/'+ResponceTrue["Responce"];
+        } else {
+          Responce.innerText += ResponceTrue["Responce"];
         }
-        Responce.innerText += ResponceTrue["Responce"];
       })
       .catch((err) => { console.log(err); alert(err); })
   });

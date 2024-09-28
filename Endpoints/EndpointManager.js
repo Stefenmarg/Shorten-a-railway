@@ -15,16 +15,14 @@ exports.takedown = (req, res, Server) => {  res.sendFile(path.resolve(__dirname,
 exports.fof = (req, res, Server) => {  res.sendFile(path.resolve(__dirname, `./Files/404.html`)); }
 
 exports.reg = (req, res, Server) => {
-	if (!req.query["url"].split('.').length > 1) {
+	if (!Server.Validator.isValidURL(req.query["url"])) {
 		res.json({ Status: "Failure", Responce: "Incorrect URL formation; Insert correct URL."});
 		return;
 	}
-
-	if (req.query["email"].split('@').length != 2  || req.query["email"].split('.').length < 2) {
+	if (!Server.Validator.isValidEmail(req.query["email"])) {
 		res.json({ Status: "Failure", Responce: "Incorrect email formation; Insert correct Email."});
 		return;
 	}
-
 	Server.DatabaseManager.postNewRedirectURL(Server, req.query["url"], req.query["email"], (err, rows) => {
 		if (err) { 
 			console.log(err); 
