@@ -60,10 +60,10 @@
       .then((ResponceTrue) => {
         Responce.innerText = ResponceTrue["Status"];
         if (ResponceTrue["Status"] == 'Success') {
-          Responce.innerText += ', your new link is now on localhost:4000/v/';
-          return;
+          Responce.innerText += ', your new link is now on localhost:4000/v/'+ResponceTrue["Responce"];
+        } else {
+          Responce.innerText += ResponceTrue["Responce"];
         }
-        Responce.innerText += ResponceTrue["Responce"];
       })
       .catch((err) => { console.log(err); alert(err); })
   });

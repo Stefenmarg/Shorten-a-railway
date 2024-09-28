@@ -4,7 +4,7 @@ exports.setup = (Server) => {
 	Server.DatabaseManager = require('./Database/DatabaseManager');
 	Server.LogManager = require("./Logs/LogManager");
 	Server.Endpoints = require('./Endpoints/EndpointManager');
-	Server.EmailValidator = require('./Modules/emailValidator');
+	Server.Validator = require('./Modules/Validator');
 	
 	//Connect the database
 	Server = Server.DatabaseManager.connectDB(Server);
