@@ -14,11 +14,15 @@ exports.Backup = (Server) => {
 		if (err) { console.log(err); Server.LogManager.writeLog(Server, 'Error', err); throw err; } //Error handling
 	});
 	
-	//For every firectory that needs to be backed up
+	//For every directory that needs to be backed up
 	for (item in Server.defaults.backupPaths){
-		//Copy the directory & it's content into the backup file mentioned above
+		//Copy the directory & it's content into the backup folder mentioned above
 		fs.cp(`${Server.defaults.backupPaths[item]}`, `${Server.defaults.backupFolder}/${backupDate}/${Server.defaults.backupPaths[item]}`, {recursive: true}, (err) => {
-			if (err) { console.log(err); Server.LogManager.writeLog(Server, 'Error', err); throw err; } // Error handling
+			if (err) { 
+				console.log(err); 
+				Server.LogManager.writeLog(Server, 'Error', err); 
+				throw err; 
+			} // Error handling
 		});
 	}
 	 //Logging that there was a backup made.

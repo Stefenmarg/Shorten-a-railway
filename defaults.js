@@ -28,6 +28,9 @@ exports.backupPaths = ["./Database/Files", "./Logs/Files"]
 //all the diffrent types of logs that can be used in the service.
 exports.logTypes = ["Error", "Warning", "Notification", "Queries", "Uncategorised"];
 
+//whether to write to the console the log type & content.
+exports.verbose = true;
+
 //the path in which the logs will be saved.
 exports.logPath = "./Logs/Files/";
 

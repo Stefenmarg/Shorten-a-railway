@@ -1,13 +1,23 @@
-/**/
 const fs = require('fs');
+
 exports.writeLog = (Server, LogType, LogContent) => {
-	//heck if this type of log is in the acceptable list
+	/* Checking if the category of the log is in the list 
+	of the topics that have seperate files ex. Query */
 	if (!Server.defaults.logTypes.includes(LogType)) {
-		LogType = Server.defaults.logTypes[Server.defaults.logTypes.length-1]
+		/* Set log type to default for uncategorised log types */
+		LogType = Server.defaults.logTypes[Server.defaults.logTypes.length-1];
 	}
-	//Create the log file (if it doesn't exist) and write it to the log file
+
+	/* Creation of the log file and writting log content */
 	fs.appendFile(`${Server.defaults.logPath}/${LogType}.log`, `${LogContent} \n`, (err) => {
-		if (err) { console.log(err); throw err;}
-		console.log(`Wrote in the ${LogType} log file: > [${LogContent}]`);
+		/* Error handling */
+		if (err) { 
+			console.log(err); 
+			throw err;
+		}
+		/* Write in the console the log type & content only is settting for verbose is true */
+		if (Server.defaults.verbose){
+			console.log(`Wrote in the ${LogType} log file: > [${LogContent}]`);
+		}
 	});
 }
