@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-exports.writeLog = (Server, LogType, LogContent) => {
+exports.writeLog = (Server, LogType, LogContent, PassVerbosityCheck) => {
 	/* Checking if the category of the log is in the list 
 	of the topics that have seperate files ex. Query */
 	if (!Server.defaults.logTypes.includes(LogType)) {
@@ -16,7 +16,7 @@ exports.writeLog = (Server, LogType, LogContent) => {
 			throw err;
 		}
 		/* Write in the console the log type & content only is settting for verbose is true */
-		if (Server.defaults.verbose){
+		if (Server.defaults.verbose || PassVerbosityCheck){
 			console.log(`Wrote in the ${LogType} log file: > [${LogContent}]`);
 		}
 	});

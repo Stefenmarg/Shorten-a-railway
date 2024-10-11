@@ -10,6 +10,14 @@ exports.rateLimit = RateLimit({
   	legacyHeaders: false
 });
 
+exports.rateLimitCommon = RateLimit({
+  	windowMs: 25 * 60 * 1000,
+  	max: 100,
+  	message: { Status: 'Failure', Responce: 'Too many requests to the site. You have been rate limited.'},
+  	standardHeaders: true, 
+  	legacyHeaders: false
+});
+
 exports.reg = (req, res, Server) => {
 	/* First check: is the url given to shorten "valid" */
 	if (!Server.Validator.isValidURL(req.query["url"])) {
@@ -27,7 +35,7 @@ exports.reg = (req, res, Server) => {
 		if (err) { 
 			console.log(err); 
 			/* Log the error */
-			Server.LogManager.writeLog(Server, 'Error', err); 
+			Server.LogManager.writeLog(Server, 'Error', err, true); 
 			/* respond with the error */
 			res.json({ Status: "Failure", Responce: "Database error occured; please try again later. If the error persist please contact the admins of the site."});
 		} else {
@@ -42,7 +50,7 @@ exports.v = (req, res, Server) => {
 	Server.DatabaseManager.getRedirectURL(Server, req.params["id"], (err, rows) => {
 		/* if error occurs return 404 page and exit */
 		if (err) {  
-			Server.LogManager.writeLog(Server, 'Error', err);  
+			Server.LogManager.writeLog(Server, 'Error', err, true);  
 			res.sendFile(path.resolve(__dirname, `./Files/404.html`));
 			return;
 		}

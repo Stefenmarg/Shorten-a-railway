@@ -11,7 +11,11 @@ exports.Backup = (Server) => {
 
 	//Making the above mentioned direcoty
 	fs.mkdir(`${Server.defaults.backupFolder}/${backupDate}`, { recursive: true }, (err) => {
-		if (err) { console.log(err); Server.LogManager.writeLog(Server, 'Error', err); throw err; } //Error handling
+		if (err) { 
+			console.log(err); 
+			Server.LogManager.writeLog(Server, 'Error', err, true); 
+			throw err; 
+		} //Error handling
 	});
 	
 	//For every directory that needs to be backed up
@@ -20,11 +24,11 @@ exports.Backup = (Server) => {
 		fs.cp(`${Server.defaults.backupPaths[item]}`, `${Server.defaults.backupFolder}/${backupDate}/${Server.defaults.backupPaths[item]}`, {recursive: true}, (err) => {
 			if (err) { 
 				console.log(err); 
-				Server.LogManager.writeLog(Server, 'Error', err); 
+				Server.LogManager.writeLog(Server, 'Error', err, true); 
 				throw err; 
 			} // Error handling
 		});
 	}
 	 //Logging that there was a backup made.
-	Server.LogManager.writeLog(Server, 'Notification', `Made a full backup; took ${new Date() - startTime} ms.`);
+	Server.LogManager.writeLog(Server, 'Notification', `Made a full backup; took ${new Date() - startTime} ms.`, true);
 }

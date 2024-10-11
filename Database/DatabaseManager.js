@@ -9,11 +9,11 @@ exports.connectDB = (Server) => {
 		/* error handling */
 		if (err) { 
 			console.log(err); 
-			Server.LogManager.writeLog(Server, 'Error', err); 
+			Server.LogManager.writeLog(Server, 'Error', err, true); 
 			throw err; 
 		}
 		/* Write when connected */
-		Server.LogManager.writeLog(Server, 'Notification', `Connected to database: ${Server.defaults.databasePath}`); // Write log that the database was connected.
+		Server.LogManager.writeLog(Server, 'Notification', `Connected to database: ${Server.defaults.databasePath}`, true); // Write log that the database was connected.
 	});
 	/*Return the changed server object.*/
 	return Server;
@@ -25,12 +25,12 @@ exports.getRedirectURL = (Server, ID, callback) => {
 		/*error handling*/
 		if (err) { 
 			console.log(err); 
-			Server.LogManager.writeLog(Server, 'Error', err); 
+			Server.LogManager.writeLog(Server, 'Error', err, true); 
 			/*error out callback*/
 			callback(err);
 		}
 		/*Save query info just in case*/
-		Server.LogManager.writeLog(Server, 'Queries', `SELECT URL FROM Links WHERE ID = ${ID};`);//Writing in the logs the execution of a query.
+		Server.LogManager.writeLog(Server, 'Queries', `SELECT URL FROM Links WHERE ID = ${ID};`, false);//Writing in the logs the execution of a query.
 		/*return successful raw data to the funxtion above in the stack to manage the data */
 		callback(null, rows);
 	});
@@ -52,21 +52,21 @@ exports.postNewRedirectURL = (Server, URL, Email, callback) => {
 			/* Error handling */
 			if (err) { 
 				console.log(err); 
-				Server.LogManager.writeLog(Server, 'Error', err);
+				Server.LogManager.writeLog(Server, 'Error', err, true);
 				/* send error in the callback and null data */
 				callback(err);
 			}
 			/*Log the query just in case */
-			Server.LogManager.writeLog(Server, 'Queries', Statement1);
+			Server.LogManager.writeLog(Server, 'Queries', Statement1, false);
 		}).get(`${Statement2}`, (err, rows) => {
 			/* Error handling */
 			if (err) { 
 				console.log(err); 
-				Server.LogManager.writeLog(Server, 'Error', err); 
+				Server.LogManager.writeLog(Server, 'Error', err, true); 
 				callback(err);
 			} 
 			/* Log the query just in case */
-			Server.LogManager.writeLog(Server, 'Queries', Statement2);
+			Server.LogManager.writeLog(Server, 'Queries', Statement2, false);
 			/*fullfil the callback and provide the raw result */
 			callback(null, rows); 
 		});

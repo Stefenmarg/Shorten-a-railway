@@ -12,19 +12,19 @@ Server.BackupManager.Backup(Server);
 Server.BackupManager.backupInterval = setInterval(Server.BackupManager.Backup, Server.defaults.backupIntervalMS, Server);
 
 /* Registration of all the static file responding endpoints */
-Server.app.get("/", (req, res) => { 
+Server.app.get("/", Server.Endpoints.rateLimitCommon, (req, res) => { 
 	res.sendFile(path.resolve(__dirname, `./Endpoints/Files/index.html`)); 
 });
 
-Server.app.get("/new", (req, res) => {
+Server.app.get("/new", Server.Endpoints.rateLimitCommon, (req, res) => {
 	res.sendFile(path.resolve(__dirname, `./Endpoints/Files/new.html`));
 });
 
-Server.app.get("/takedown", (req, res) => {
+Server.app.get("/takedown", Server.Endpoints.rateLimitCommon, (req, res) => {
 	res.sendFile(path.resolve(__dirname, `./Endpoints/Files/takedown.html`));
 });
 
-Server.app.get("/404", (req, res) => {
+Server.app.get("/404", Server.Endpoints.rateLimitCommon, (req, res) => {
 	res.sendFile(path.resolve(__dirname, `./Endpoints/Files/404.html`));
 });
 
@@ -39,5 +39,5 @@ Server.app.get("/v/:id", Server.Endpoints.rateLimit, (req, res) => {
 
 //Make the servce listen to the default port OR port 8000 if default is not defined.
 Server.app.listen(Server.defaults.serverPort || 8000, () => {
-	Server.LogManager.writeLog(Server, 'Notification', `Application listening on port: ${Server.defaults.serverPort || 8000}`); //Write log about launch 
+	Server.LogManager.writeLog(Server, 'Notification', `Application listening on port: ${Server.defaults.serverPort || 8000}`, true); //Write log about launch 
 })
